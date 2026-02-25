@@ -3,11 +3,9 @@
 A modern, fully functional and interactive dashboard built using pure HTML, CSS, and JavaScript.  
 No frameworks. No external libraries. Just clean, structured vanilla code.
 
-## 🌐 Live Demo
-
 ## 📸 Screenshots
 
-![Dashboard Preview](assets/dashboard.png)
+![Dashboard Preview](assets/dashboard.jpg)
 
 ## 🎯 Key Features
 ### 📊 Dashboard
