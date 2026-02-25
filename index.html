@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NISH PRO · Complete Dashboard</title>
+  
+  <!-- CSS File -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="light">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">N</div>
+      <span class="brand-name">NISH PRO</span>
+    </div>
+
+    <div class="nav-menu">
+      <div class="nav-item active" onclick="switchSection('dashboard', this)">
+        <span class="nav-icon">🏠</span>
+        <span>Dashboard</span>
+        <span class="nav-badge" id="dashboardBadge">7</span>
+      </div>
+      <div class="nav-item" onclick="switchSection('projects', this)">
+        <span class="nav-icon">📁</span>
+        <span>Projects</span>
+        <span class="nav-badge" id="projectsBadge">4</span>
+      </div>
+      <div class="nav-item" onclick="switchSection('reports', this)">
+        <span class="nav-icon">📊</span>
+        <span>Reports</span>
+        <span class="nav-badge" id="reportsBadge">8</span>
+      </div>
+      <div class="nav-item" onclick="switchSection('analytics', this)">
+        <span class="nav-icon">📈</span>
+        <span>Analytics</span>
+        <span class="nav-badge">Live</span>
+      </div>
+      <div class="nav-item" onclick="switchSection('team', this)">
+        <span class="nav-icon">👥</span>
+        <span>Team</span>
+        <span class="nav-badge">5</span>
+      </div>
+      <div class="nav-item" onclick="switchSection('calendar', this)">
+        <span class="nav-icon">📅</span>
+        <span>Calendar</span>
+        <span class="nav-badge">3</span>
+      </div>
+      <div class="nav-item" onclick="switchSection('settings', this)">
+        <span class="nav-icon">⚙️</span>
+        <span>Settings</span>
+      </div>
+    </div>
+
+    <div class="user-profile">
+      <div class="user-avatar">👤</div>
+      <h3>NISH Admin</h3>
+      <p style="color: var(--text-muted);">nish@pro.com</p>
+      <span class="user-status" id="userStatus">● Online</span>
+      <button class="project-btn" style="margin-top: 1rem;" onclick="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="header">
+      <h1 id="pageTitle">Dashboard Overview</h1>
+      <div style="display: flex; gap: 1rem;">
+        <button class="theme-btn" onclick="showNotification('🔔 You have 3 new notifications')">🔔 Notifications</button>
+        <button class="theme-btn" id="themeToggle">🌓 Theme</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div id="dashboard" class="content-section active-section">
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-number" id="totalTasksStat">12</div>
+          <div class="stat-label">Total Tasks</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="completedTasksStat">5</div>
+          <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="pendingTasksStat">7</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="progressStat">42%</div>
+          <div class="stat-label">Progress</div>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <!-- TASK MANAGER -->
+        <div class="card">
+          <div class="card-title">
+            <span>✅</span>
+            <h3>Task Manager</h3>
+          </div>
+          
+          <div class="progress-container">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Overall Progress</span>
+              <span id="progressPercent">42%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="mainProgressFill" style="width: 42%"></div>
+            </div>
+          </div>
+
+          <ul class="task-list" id="taskList"></ul>
+
+          <div class="add-task-form">
+            <input type="text" id="taskInput" placeholder="Add new task...">
+            <select id="prioritySelect">
+              <option value="high">🔥 High</option>
+              <option value="medium" selected>⚡ Medium</option>
+              <option value="low">🌱 Low</option>
+            </select>
+            <button onclick="addTask()">+</button>
+          </div>
+        </div>
+
+        <!-- QUOTE & WEATHER -->
+        <div class="card">
+          <div class="card-title">
+            <span>💭</span>
+            <h3>Daily Inspiration</h3>
+          </div>
+          <div style="font-size: 1.2rem; font-style: italic; margin: 1rem 0;" id="quoteDisplay">
+            Loading quote...
+          </div>
+          <div style="text-align: right; color: var(--primary);" id="quoteAuthor"></div>
+          <button class="project-btn" onclick="getNewQuote()" style="margin-top: 1rem;">🎲 New Quote</button>
+          
+          <div style="margin-top: 2rem;">
+            <div class="card-title">
+              <span>🌤️</span>
+              <h3>Weather</h3>
+            </div>
+            <div id="weatherDisplay" style="text-align: center;">
+              <div style="font-size: 2rem;">22°C</div>
+              <div>☀️ Sunny in San Francisco</div>
+            </div>
+            <button class="project-btn" onclick="refreshWeather()">🔄 Refresh</button>
+          </div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="card">
+          <div class="card-title">
+            <span>⚡</span>
+            <h3>Quick Actions</h3>
+          </div>
+          <button class="project-btn" style="margin-bottom: 1rem;" onclick="completeAllTasks()">✅ Complete All Tasks</button>
+          <button class="project-btn" style="margin-bottom: 1rem; background: var(--warning);" onclick="clearCompletedTasks()">🗑️ Clear Completed</button>
+          <button class="project-btn" style="background: var(--info);" onclick="exportTasks()">📥 Export Tasks</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS SECTION -->
+    <div id="projects" class="content-section">
+      <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+
+    <!-- REPORTS SECTION -->
+    <div id="reports" class="content-section">
+      <div class="reports-table">
+        <div class="report-row header">
+          <div>Report Name</div>
+          <div>Date</div>
+          <div>Size</div>
+          <div>Action</div>
+        </div>
+        <div id="reportsList"></div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS SECTION -->
+    <div id="analytics" class="content-section">
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-title">📊 Task Completion Trend</div>
+          <div style="height: 200px; display: flex; align-items: flex-end; gap: 1rem; padding: 1rem;" id="chartContainer">
+            <!-- Chart bars will be added by JS -->
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📈 Performance Metrics</div>
+          <div id="metricsContainer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM SECTION -->
+    <div id="team" class="content-section">
+      <div class="projects-grid" id="teamGrid"></div>
+    </div>
+
+    <!-- CALENDAR SECTION -->
+    <div id="calendar" class="content-section">
+      <div class="card">
+        <div class="card-title">📅 March 2026</div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+        <button class="project-btn" style="margin-top: 1rem;" onclick="showNotification('📅 Event added to calendar')">➕ Add Event</button>
+      </div>
+    </div>
+
+    <!-- SETTINGS SECTION -->
+    <div id="settings" class="content-section">
+      <div class="settings-group">
+        <div class="settings-title">🎨 Appearance</div>
+        <div class="setting-row">
+          <span>Dark Mode</span>
+          <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+        </div>
+        <div class="setting-row">
+          <span>Compact Mode</span>
+          <div class="toggle-switch" onclick="toggleSetting(this)"></div>
+        </div>
+        <div class="setting-row">
+          <span>Accent Color</span>
+          <input type="color" class="color-input" value="#4f46e5" onchange="changeAccentColor(this.value)">
+        </div>
+        <div class="setting-row">
+          <span>Font Size</span>
+          <input type="range" class="range-input" min="12" max="20" value="16" onchange="changeFontSize(this.value)">
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-title">🔔 Notifications</div>
+        <div class="setting-row">
+          <span>Email Alerts</span>
+          <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+        </div>
+        <div class="setting-row">
+          <span>Push Notifications</span>
+          <div class="toggle-switch" onclick="toggleSetting(this)"></div>
+        </div>
+        <div class="setting-row">
+          <span>Sound Alerts</span>
+          <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-title">💾 Data</div>
+        <button class="project-btn" style="margin-bottom: 1rem;" onclick="exportData()">📤 Export All Data</button>
+        <button class="project-btn" style="margin-bottom: 1rem; background: var(--warning);" onclick="importData()">📥 Import Data</button>
+        <button class="project-btn" style="background: var(--danger);" onclick="resetData()">⚠️ Reset All Data</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
